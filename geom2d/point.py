@@ -1,5 +1,6 @@
 import math 
 from geom2d.vector import Vector
+from geom2d import nums 
 
 class Point:
     def __init__(self, x, y):
@@ -30,4 +31,17 @@ class Point:
             raise TypeError("Argument must be a Vector")
         scaled_vec = vector.scaled_by(times)
         return Point(self.x + scaled_vec.u, self.y + scaled_vec.v)
-
+    
+    def __eq__(self, other: object) -> bool:
+        '''重载等于操作符'''
+        if self is other:
+            return True
+        if not isinstance(other, Point):
+            print("not isinstance(other, Point)")
+            return False
+        return nums.are_close_enough(self.x, other.x) and \
+                nums.are_close_enough(self.y, other.y)
+    
+    def __str__(self) -> str:
+        '''重载打印操作符'''
+        return f'({self.x}, {self.y})'

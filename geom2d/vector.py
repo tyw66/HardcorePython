@@ -96,3 +96,17 @@ class Vector:
     def cosine(self):
         '''返回向量的余弦值'''
         return self.u / self.norm if self.norm != 0 else float('nan')
+    
+    def __eq__(self, other) -> bool:
+        '''重载等于操作符'''
+        if self is other:
+            return True
+        if not isinstance(other, Vector):
+            print("not isinstance(other, Vector)")
+            return False
+        return nums.are_close_enough(self.u, other.u) and \
+               nums.are_close_enough(self.v, other.v)
+    
+    def __str__(self) -> str:
+        '''重载打印操作符'''
+        return f'({self.u}, {self.v}) with norm {self.norm}'
