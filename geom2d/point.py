@@ -7,6 +7,10 @@ class Point:
         self.x = x
         self.y = y
 
+    def __str__(self) -> str:
+        '''重载打印操作符'''
+        return f'[Point] ({self.x}, {self.y})'
+
     def distance_to(self, other) -> float:
         '''计算两点之间的距离'''
         if not isinstance(other, Point):
@@ -22,7 +26,7 @@ class Point:
     def __sub__(self, other):
         '''点减法'''
         if not isinstance(other, Point):
-            raise TypeError("Argument must be a Point")
+            raise TypeError("Argument must be a Point")        
         return Vector(self.x - other.x, self.y - other.y)
     
     def displaced_by(self, vector: Vector, times=1):
@@ -42,6 +46,3 @@ class Point:
         return nums.are_close_enough(self.x, other.x) and \
                 nums.are_close_enough(self.y, other.y)
     
-    def __str__(self) -> str:
-        '''重载打印操作符'''
-        return f'({self.x}, {self.y})'

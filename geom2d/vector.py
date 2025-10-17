@@ -3,10 +3,13 @@ from geom2d import nums
 
 class Vector:
     def __init__(self,u, v) -> None:
-        self.u = u
-        
+        self.u = u        
         self.v = v
 
+    def __str__(self) -> str:
+        '''重载打印操作符'''
+        return f'[Vector] ({self.u}, {self.v}) with norm {self.norm}'
+    
     def __add__(self, other):
         '''向量加法'''
         if not isinstance(other, Vector):
@@ -107,6 +110,3 @@ class Vector:
         return nums.are_close_enough(self.u, other.u) and \
                nums.are_close_enough(self.v, other.v)
     
-    def __str__(self) -> str:
-        '''重载打印操作符'''
-        return f'({self.u}, {self.v}) with norm {self.norm}'
