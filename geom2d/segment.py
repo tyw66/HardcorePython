@@ -1,3 +1,4 @@
+from geom2d import tparam
 from geom2d.point import Point
 from geom2d.vectors import make_vector_between, make_versor, make_versor_between
 
@@ -26,3 +27,18 @@ class Segment:
     def normal_versor(self):
         '''线段法向的单位向量'''
         return self.direction_versor.perpendicular()
+    
+    @property
+    def length(self):
+        '''线段的长度'''
+        return self.start.distance_to(self.end)
+        
+    def point_at(self, t: float) -> Point:
+        '''返回线段上参数为 t 的点，t ∈ [0, 1]'''
+        tparam.ensure_valid(t)
+        return self.start.displaced(self.direction_vector,t)
+    
+    @property
+    def middle(self) -> Point:
+        '''线段的中点'''
+        return self.point_at(tparam.MIDDLE)

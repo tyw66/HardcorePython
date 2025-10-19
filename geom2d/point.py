@@ -29,7 +29,7 @@ class Point:
             raise TypeError("Argument must be a Point")        
         return Vector(self.x - other.x, self.y - other.y)
     
-    def displaced_by(self, vector: Vector, times=1):
+    def displaced(self, vector: Vector, times=1.0):
         '''点平移'''
         if not isinstance(vector, Vector):
             raise TypeError("Argument must be a Vector")
