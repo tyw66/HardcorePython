@@ -11,7 +11,7 @@ class Segment:
 
     def __str__(self) -> str:
         '''重载打印操作符'''
-        return f'[Segment] {self.start} to {self.end}, direction is {self.direction_vector}'  
+        return f'[Segment] from {self.start} to {self.end}, length is {self.length}, direction is {self.direction_versor}'  
 
     @property
     def direction_vector(self):
@@ -42,3 +42,46 @@ class Segment:
     def middle(self) -> Point:
         '''线段的中点'''
         return self.point_at(tparam.MIDDLE)
+    
+    def closest_point_to(self, point: Point) -> Point:
+        '''返回线段上距离指定点最近的点'''
+        v = make_vector_between(point, self.start)
+        d = self.direction_versor
+        vs = v.project_over(d)
+
+        if vs < 0:
+            return self.start
+        elif vs > self.length:
+            return self.end
+        else:
+            return self.start.displaced(d, vs)
+        
+    def distance_to(self, point: Point) -> float:
+        '''返回线段到指定点的最短距离'''
+        closest = self.closest_point_to(point)
+        return closest.distance_to(point)
+    
+    def interacts_with(self, other):
+        '''两线段的交点'''
+        d1,d2=self.direction_vector,other.direction_vector
+        if d1.is_parallel_to(d2):
+            return None
+        
+        cross_prod=d1.cross(d2)
+        delta =other.start - self.start
+        t1 = (delta.u * d2.v - delta.v * d2.u) / cross_prod
+        t2 = (delta.u * d1.v - delta.v * d1.u) / cross_prod
+
+        if tparam.is_valid(t1) and tparam.is_valid(t2):
+            return self.point_at(t1)
+        else:
+            #print(f't1:{t1} t2:{t2}')
+            return None
+        
+    def __eq__(self, other) -> bool:
+        '''重载等于操作符'''
+        if self is other:
+            return True
+        if not isinstance(other, Segment):
+            return False
+        return (self.start == other.start and self.end == other.end)

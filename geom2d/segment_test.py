@@ -49,3 +49,39 @@ class TestSegment(unittest.TestCase):
         expected = Point(100, 300)
         actual = self.segment.point_at(t)
         self.assertEqual(expected, actual)
+
+    def test_closest_point_to(self):
+        point = Point(400, 400)
+        expected = Point(200, 200)
+        actual = self.segment.closest_point_to(point)
+        self.assertEqual(expected, actual)
+        point = Point(0, 600)
+        expected = Point(0, 400)
+        actual = self.segment.closest_point_to(point)
+        self.assertEqual(expected, actual)
+        point = Point(600, 0)
+        expected = Point(400, 0)
+        actual = self.segment.closest_point_to(point)
+        self.assertEqual(expected, actual)
+
+    def test_parallel_segments_no_interaction(self):
+        other = Segment(Point(200, 0), Point(0, 200))
+        actual = self.segment.interacts_with(other)
+        self.assertIsNone(actual)
+
+    def test_segment_intersection(self):
+        other = Segment(Point(0, 0), Point(400, 400))
+        actual = self.segment.interacts_with(other)
+        expected = Point(200, 200)
+        self.assertEqual(expected, actual)
+    
+    def test_segment_not_intersection(self):
+        other1= Segment(Point(0, 0), Point(50, 50))
+        actual1= self.segment.interacts_with(other1)
+        self.assertIsNone(actual1)
+        other2= Segment(Point(0, 0), Point(-10, 100))
+        actual2= self.segment.interacts_with(other2)
+        self.assertIsNone(actual2)
+        other3= Segment(Point(0, 0), Point(-100, 500))
+        actual3= self.segment.interacts_with(other3)
+        self.assertIsNone(actual3)

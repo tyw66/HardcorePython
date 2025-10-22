@@ -52,7 +52,7 @@ class Vector:
     
     def project_over(self, direction):
         '''向量在另一个向量上的投影'''
-        return self.dot(direction.norm) if isinstance(direction, Vector) else NotImplemented
+        return self.dot(direction.normalized()) if isinstance(direction, Vector) else NotImplemented
 
     def cross(self, other):
         '''向量叉积'''  
