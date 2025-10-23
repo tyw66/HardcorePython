@@ -29,10 +29,10 @@ class TestPoint(unittest.TestCase):
         p = Point(1, 2)
         v = Vector(3, 4)
         expected = Point(4, 6)
-        actual = p.displaced_by(v)
+        actual = p.displaced(v)
         self.assertEqual(expected, actual)
         expected_scaled = Point(7, 10)
-        actual_scaled = p.displaced_by(v, times=2)
+        actual_scaled = p.displaced(v, times=2)
         self.assertEqual(expected_scaled, actual_scaled)
         
     def test_equality(self):

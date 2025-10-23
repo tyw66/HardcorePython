@@ -1,4 +1,5 @@
 from geom2d import tparam
+from geom2d.line import Line
 from geom2d.point import Point
 from geom2d.vectors import make_vector_between, make_versor, make_versor_between
 
@@ -16,12 +17,12 @@ class Segment:
     @property
     def direction_vector(self):
         '''线段的方向向量'''
-        return make_vector_between(self.end, self.start)    
+        return make_vector_between(self.start, self.end)    
     
     @property
     def direction_versor(self):
         '''线段方向的单位向量'''
-        return make_versor_between(self.end, self.start)
+        return make_versor_between(self.start, self.end)
     
     @property
     def normal_versor(self):
@@ -45,7 +46,7 @@ class Segment:
     
     def closest_point_to(self, point: Point) -> Point:
         '''返回线段上距离指定点最近的点'''
-        v = make_vector_between(point, self.start)
+        v = make_vector_between(self.start, point)
         d = self.direction_versor
         vs = v.project_over(d)
 
@@ -85,3 +86,7 @@ class Segment:
         if not isinstance(other, Segment):
             return False
         return (self.start == other.start and self.end == other.end)
+    
+    def bisector(self):
+        '''返回线段的垂直平分线'''
+        return Line(self.middle, self.normal_versor)
