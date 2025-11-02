@@ -2,12 +2,13 @@ import math
 from geom2d import nums
 
 class Vector:
+    '''表示二维空间中的向量'''
     def __init__(self,u, v) -> None:
         self.u = u        
         self.v = v
 
     def __str__(self) -> str:
-        '''重载打印操作符'''
+        '''返回向量的字符串表示'''
         return f'[Vector] ({self.u}, {self.v}) with norm {self.norm}'
     
     def __add__(self, other):

@@ -3,12 +3,13 @@ from geom2d.vector import Vector
 from geom2d import nums 
 
 class Point:
+    '''表示二维空间中的点'''
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
     def __str__(self) -> str:
-        '''重载打印操作符'''
+        '''返回点的字符串表示'''
         return f'[Point] ({self.x}, {self.y})'
 
     def distance_to(self, other) -> float:

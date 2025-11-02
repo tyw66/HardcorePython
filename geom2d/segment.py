@@ -4,6 +4,7 @@ from geom2d.point import Point
 from geom2d.vectors import make_vector_between, make_versor, make_versor_between
 
 class Segment:
+    '''表示二维空间中的线段'''
     def __init__(self, start: Point, end: Point):
         if not isinstance(start, Point) or not isinstance(end, Point):
             raise TypeError("Arguments must be Points")
@@ -11,8 +12,8 @@ class Segment:
         self.end = end
 
     def __str__(self) -> str:
-        '''重载打印操作符'''
-        return f'[Segment] from {self.start} to {self.end}, length is {self.length}, direction is {self.direction_versor}'  
+        '''返回线段的字符串表示'''
+        return f'[Segment] (from {self.start} to {self.end}, length is {self.length}, direction is {self.direction_versor})'  
 
     @property
     def direction_vector(self):
@@ -87,6 +88,7 @@ class Segment:
             return False
         return (self.start == other.start and self.end == other.end)
     
+    @property
     def bisector(self):
         '''返回线段的垂直平分线'''
         return Line(self.middle, self.normal_versor)

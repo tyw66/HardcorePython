@@ -3,9 +3,14 @@ from geom2d.vector import Vector
 from geom2d.vectors import make_vector_between
 
 class Line:
+    '''表示二维空间中的直线'''
     def __init__(self, base: Point, direction: Vector):
         self.base = base
         self.direction = direction
+
+    def __str__(self) -> str:
+        '''返回直线的字符串表示'''
+        return f'[Line] (base={self.base}, direction={self.direction})'
 
     def is_parallel_to(self, other) -> bool:
         '''判断两条直线是否平行'''

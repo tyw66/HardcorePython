@@ -9,6 +9,7 @@ from geom2d.vectors import make_vector_between
 from utils.pairs import make_round_pairs
 
 class Polygon:
+    '''表示二维空间中的多边形'''
     def __init__(self, vertices: list[Point]):
         if len(vertices) < 3:
             raise ValueError("A polygon must have at least 3 vertices.")
