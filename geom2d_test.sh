@@ -6,3 +6,4 @@ python3 -m unittest .\geom2d\polygon_test.py
 python3 -m unittest .\geom2d\rect_test.py
 python3 -m unittest .\geom2d\segment_test.py
 python3 -m unittest .\geom2d\vector_test.py
+python3 -m unittest .\geom2d\affine_transf_test.py
