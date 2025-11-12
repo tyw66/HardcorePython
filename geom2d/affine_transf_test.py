@@ -43,3 +43,16 @@ class TestAffineTransform(unittest.TestCase):
     #TODO
     #     self.assertTrue(actual == Polygon([Point(0,0),Point(0,0),Point(0,0),Point(0,0), 
     #                                        Point(0,0),Point(0,0),Point(0,0),Point(0,0)])) 
+
+    def test_concatenate_scale_translate(self):
+        actual = self.scale.then(self.trans)
+        expected = AffineTranform(2, 5, 10, 15)
+        self.assertEqual(expected, actual)
+
+    def test_concatenate_translate_then_scale(self):
+        actual = self.trans.then(self.scale)
+        expected = AffineTranform(2, 5, 20, 75)
+        self.assertEqual(expected, actual)
+        
+        
+        
