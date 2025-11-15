@@ -1,6 +1,6 @@
 import unittest
 
-from geom2d.affine_transf import AffineTranform
+from geom2d.affine_transf import AffineTransform
 from geom2d.point import Point
 from geom2d.segment import Segment
 from geom2d.rect import Rect
@@ -10,10 +10,10 @@ from geom2d.polygon import Polygon
 
 class TestAffineTransform(unittest.TestCase):
     point = Point(2, 3)
-    scale = AffineTranform(2, 5)
-    trans = AffineTranform(1, 1, 10, 15)
-    shear = AffineTranform(1, 1, 0, 0, 3, 4)
-    affine = AffineTranform(2, 2, 5, 7, 3, 0.5)
+    scale = AffineTransform(2, 5)
+    trans = AffineTransform(1, 1, 10, 15)
+    shear = AffineTransform(1, 1, 0, 0, 3, 4)
+    affine = AffineTransform(2, 2, 5, 7, 3, 0.5)
 
     def test_scale_point(self):
         scaled_point = self.scale.apply_to_point(self.point)
@@ -46,13 +46,18 @@ class TestAffineTransform(unittest.TestCase):
 
     def test_concatenate_scale_translate(self):
         actual = self.scale.then(self.trans)
-        expected = AffineTranform(2, 5, 10, 15)
+        expected = AffineTransform(2, 5, 10, 15)
         self.assertEqual(expected, actual)
 
     def test_concatenate_translate_then_scale(self):
         actual = self.trans.then(self.scale)
-        expected = AffineTranform(2, 5, 20, 75)
+        expected = AffineTransform(2, 5, 20, 75)
         self.assertEqual(expected, actual)
         
         
+    def test_inverse(self):
+        transf = AffineTransform(1,2,3,4,5,6)
+        expected = AffineTransform()
+        actual = transf.then(transf.inverse())
+        self.assertTrue(expected == actual)
         

@@ -5,7 +5,7 @@ from geom2d.rect import Rect
 from geom2d.circle import Circle
 from geom2d.nums import are_close_enough
 
-class AffineTranform:
+class AffineTransform:
     '''表示二维空间中的仿射变换'''
     def __init__(self, sx=1.0, sy=1.0, tx=0.0, ty=0.0, shx=0.0, shy=0.0):
         self.sx = sx  
@@ -14,6 +14,22 @@ class AffineTranform:
         self.ty = ty  
         self.shx = shx
         self.shy = shy
+
+    def __eq__(self, other: object) -> bool:
+        '''重载等于操作符'''
+        if self is other:
+            return True
+        
+        if not isinstance(other, AffineTransform):
+            return False
+        
+        return are_close_enough(self.sx, other.sx) and \
+               are_close_enough(self.sy, other.sy) and \
+               are_close_enough(self.tx, other.tx) and \
+               are_close_enough(self.ty, other.ty) and \
+               are_close_enough(self.shx, other.shx) and \
+               are_close_enough(self.shy, other.shy)               
+        
 
     def apply_to_point(self, point: Point) -> Point:
         '''对点应用仿射变换'''
@@ -61,12 +77,12 @@ class AffineTranform:
             circle.to_polygon(division)
         )
     
-    def then(self, other: 'AffineTranform') -> 'AffineTranform':
+    def then(self, other: 'AffineTransform') -> 'AffineTransform':
         '''组合两个仿射变换'''
-        if not isinstance(other, AffineTranform):
-            raise TypeError("Argument must be an AffineTranform")
+        if not isinstance(other, AffineTransform):
+            raise TypeError("Argument must be an AffineTransform")
         
-        return AffineTranform(
+        return AffineTransform(
             sx = other.sx * self.sx + other.shx* self.shy,
             sy = other.shy * self.shx + other.sy* self.sy,
             tx = other.sx * self.tx + other.shx * self.ty + other.tx,
@@ -74,18 +90,18 @@ class AffineTranform:
             shx = other.sx * self.shx + other.shx * self.sy,
             shy = other.shy * self.sx + other.sy * self.shy
         )
-    def __eq__(self, other: object) -> bool:
-        '''重载等于操作符'''
-        if self is other:
-            return True
+
+    def inverse(self) -> 'AffineTransform':
+        '''计算仿射变换的逆变换'''
+        denom = self.sx * self.sy - self.shx * self.shy
+        if are_close_enough(denom, 0):
+            raise ValueError("Affine transform is not invertible")
         
-        if not isinstance(other, AffineTranform):
-            return False
-        
-        return are_close_enough(self.sx, other.sx) and \
-               are_close_enough(self.sy, other.sy) and \
-               are_close_enough(self.tx, other.tx) and \
-               are_close_enough(self.ty, other.ty) and \
-               are_close_enough(self.shx, other.shx) and \
-               are_close_enough(self.shy, other.shy)               
-        
+        return AffineTransform(
+            sx = self.sy /denom,
+            sy = self.sx /denom,
+            tx = (self.ty * self.shx - self.tx * self.sy) / denom,
+            ty = (self.tx * self.shy - self.ty * self.sx) / denom,
+            shx = -self.shx / denom,
+            shy = -self.shy / denom
+        )
