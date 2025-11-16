@@ -15,6 +15,10 @@ class AffineTransform:
         self.shx = shx
         self.shy = shy
 
+    def __str__(self) -> str:
+        '''返回仿射变换的字符串表示'''
+        return f'[AffineTransform] (sx={self.sx}, sy={self.sy}, shx={self.shx}, shy={self.shy}, tx={self.tx}, ty={self.ty},) '
+
     def __eq__(self, other: object) -> bool:
         '''重载等于操作符'''
         if self is other:

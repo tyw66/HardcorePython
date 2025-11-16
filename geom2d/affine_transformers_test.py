@@ -2,6 +2,7 @@ import unittest
 
 from geom2d.affine_transformers import make_scale
 from geom2d.affine_transformers import make_rotation
+from geom2d.affine_transformers import ease_in_out_interpolation
 from geom2d.segment import Segment
 from geom2d.point import Point
 
@@ -37,4 +38,22 @@ class TestAffineTransformers(unittest.TestCase):
         actual = rotation.apply_to_segment(self.seg)
         expected = Segment(Point(0.5, 1.5), Point(3.5,3.5))
         self.assertEqual(actual, expected)
+
+    def test_ease_in_out_interpolation(self):
+        '''测试缓入缓出插值变换'''
+        start = make_scale(1.0, 1.0)
+        end = make_scale(3.0, 2.0, Point(2, 2))
+        steps = 4
+        actual_transformations = ease_in_out_interpolation(start, end, steps)
+        
+        expected_transforms = [
+            make_scale(1.0, 1.0, Point(2, 2)),
+            make_scale(1.2, 1.1, Point(2, 2)),
+            make_scale(2.0, 1.5, Point(2, 2)),
+            make_scale(2.8, 1.9, Point(2, 2)),
+            make_scale(3.0, 2.0, Point(2, 2)),
+        ]
+
+        for actual, expected in zip(actual_transformations, expected_transforms):
+            self.assertEqual(actual, expected)
 

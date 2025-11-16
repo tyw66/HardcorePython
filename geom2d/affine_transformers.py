@@ -1,5 +1,6 @@
 import math
 from geom2d.affine_transf import AffineTransform
+from geom2d.interpolation import ease_in_out_t_sequence, interpolate
 from geom2d.point import Point
 
 def make_scale(sx:float, sy:float, center=Point(0,0)):
@@ -24,3 +25,15 @@ def make_rotation(radians:float, center=Point(0,0)):
         shx = -sin,
         shy = sin
     )
+
+def ease_in_out_interpolation(start: AffineTransform, end: AffineTransform, steps):
+    '''使用缓入缓出插值在指定步数内从start插值到end'''
+    t_sequence = ease_in_out_t_sequence(steps)
+    return [AffineTransform(
+                sx = interpolate(start.sx, end.sx, t),
+                sy = interpolate(start.sy, end.sy, t),
+                shx = interpolate(start.shx, end.shx, t),
+                shy = interpolate(start.shy, end.shy, t),
+                tx = interpolate(start.tx, end.tx, t),
+                ty = interpolate(start.ty, end.ty, t),
+            ) for t in t_sequence]
