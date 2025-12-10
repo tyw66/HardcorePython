@@ -8,6 +8,7 @@ __circle_template = read_template('circle')
 __polygon_template = read_template('polygon')
 __polyline_template = read_template('polyline')
 __text_template = read_template('text')
+__group_template = read_template('group')
 
 def segment(seg:Segment, attributes=()):
     '''生成SVG中的线段元素'''
@@ -59,3 +60,8 @@ def text(txt:str, pos:Point, disp:Vector, attributes=()):
         .replace('{{text}}', txt) \
         .replace('{{attrs}}', attrs_to_str(attributes)) 
 
+def group(primitives:list[str], attributes=()):
+    '''生成SVG中的群组元素'''
+    return __group_template \
+        .replace('{{content}}', '\n    '.join(primitives)) \
+        .replace('{{attrs}}', attrs_to_str(attributes))
