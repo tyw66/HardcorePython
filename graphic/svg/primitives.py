@@ -43,9 +43,9 @@ def polygon(polygon:Polygon, attributes=()):
         .replace('{{points}}', ' '.join(point_list)) \
         .replace('{{attrs}}', attrs_to_str(attributes))
 
-def polyline(polygon:Polygon, attributes=()):
+def polyline(points:list[Point], attributes=()):
     '''生成SVG中的多段线元素'''
-    point_list = [f'{pt.x},{pt.y}' for pt in polygon.vertices]
+    point_list = [f'{pt.x},{pt.y}' for pt in points]
     return __polyline_template \
         .replace('{{points}}', ' '.join(point_list)) \
         .replace('{{attrs}}', attrs_to_str(attributes))
@@ -65,3 +65,29 @@ def group(primitives:list[str], attributes=()):
     return __group_template \
         .replace('{{content}}', '\n    '.join(primitives)) \
         .replace('{{attrs}}', attrs_to_str(attributes))
+
+def arrow(
+        _segment:Segment,
+        length:float,
+        height:float,
+        attributes=()
+):
+    '''生成SVG中的箭头元素'''
+    director = _segment.direction_vector
+    v_l = director.opposite().with_length(length)
+    v_h1 = director.perpendicular().with_length(height / 2)
+    v_h2 = v_h1.opposite()
+
+    return group(
+        [
+            segment(_segment),
+            polyline([
+                _segment.end.displaced(v_l + v_h1),
+                _segment.end,
+                _segment.end.displaced(v_l + v_h2)
+            ])
+        ],
+        attributes            
+    )
+
+

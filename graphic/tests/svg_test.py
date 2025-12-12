@@ -9,6 +9,7 @@ from graphic.svg.primitives import polygon
 from graphic.svg.primitives import polyline
 from graphic.svg.primitives import text
 from graphic.svg.primitives import group
+from graphic.svg.primitives import arrow
 
 class TestSvg(unittest.TestCase):
     def test_line(self):
@@ -45,7 +46,7 @@ class TestSvg(unittest.TestCase):
     def test_polyline(self):
         '''测试SVG多段线元素的生成'''
         expected = '<polyline points="1,2 3,4 5,6" />'
-        actual = polyline(Polygon([Point(1,2), Point(3,4), Point(5,6)]))
+        actual = polyline([Point(1,2), Point(3,4), Point(5,6)])
         self.assertEqual(expected, actual)
 
     def test_text(self):
@@ -61,4 +62,11 @@ class TestSvg(unittest.TestCase):
         line_elem = segment(Segment(Point(0,0), Point(1,1)))
         circle_elem = circle(Circle(Point(2,2), 3))
         actual = group([line_elem, circle_elem], [attributes.stroke_color("blue")])
+        self.assertEqual(expected, actual)
+
+    def test_arrow(self):
+        '''测试SVG箭头元素的生成'''
+        expected = '<g stroke="black">\n    <line x1="0" y1="0" x2="10" y2="0" />\n    <polyline points="7.0,2.5 10,0 7.0,-2.5" />\n</g>'
+        seg = Segment(Point(0,0), Point(10,0))
+        actual = arrow(seg, length=3.0, height=5.0, attributes=[attributes.stroke_color("black")])
         self.assertEqual(expected, actual)
