@@ -24,4 +24,4 @@ def __viewbox_from_rect(rect:Rect)->str:
     return f"{rect.origin.x} {rect.origin.y} {rect.size.width} {rect.size.height}"
 
 def __transf_matrix_vals(t:AffineTransform)->str:
-    return f"matrix({t.sx} {t.shy} {t.shx} {t.sy} {t.tx} {t.ty})"
+    return f"{t.sx} {t.shy} {t.shx} {t.sy} {t.tx} {t.ty}"

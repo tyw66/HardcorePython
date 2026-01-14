@@ -22,9 +22,9 @@ def input_to_svg(points:list[Point], point_radius, config):
         svg.circle(Circle(a, point_radius), style),
         svg.circle(Circle(b, point_radius), style),
         svg.circle(Circle(c, point_radius), style),
-        svg.text(f'A{a}', a, disp, label_style),
-        svg.text(f'B{b}', b, disp, label_style),
-        svg.text(f'C{c}', c, disp, label_style),
+        svg.text(f'A ({a.x}, {a.y})', a, disp, label_style),
+        svg.text(f'B ({b.x}, {b.y})', b, disp, label_style),
+        svg.text(f'C ({c.x}, {c.y})', c, disp, label_style),
     ]
 
 def output_to_svg(circle:Circle, config):
@@ -33,13 +33,13 @@ def output_to_svg(circle:Circle, config):
     return [
         svg.circle(circle, style),
         svg.text(
-            f'O{circle.center}',
+            f'O ({circle.center.x}, {circle.center.y})',
             circle.center,
             Vector(0,0),
             label_style
         ),
         svg.text(
-            f'r{circle.radius}',
+            f'R {circle.radius}',
             circle.center,
             Vector(0,20),
             label_style
