@@ -13,7 +13,7 @@ def parse_points():
 
 
 def __point_from_string(string: str):
-    matches = re.match(r'(?P<x>\d+)\s(?P<y>\d+)', string)
+    matches = re.match(r'(?P<x>-?\d+)\s(?P<y>-?\d+)', string.strip())
     if matches:
         return Point(
             int(matches.group('x')), 
