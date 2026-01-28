@@ -3,7 +3,7 @@ tk = Tk()
 tk.title("Hello Canvas")
 
 canvas = Canvas(tk, width=600, height=600)
-canvas.grid(row=0, column=0)
+canvas.pack()
 
 canvas.create_line(100, 420, 500, 420, fill="#3e8c0a", width=5)
 canvas.create_oval(50, 50, 300, 250, fill="#a1dfed",outline="#000000", width=2)
