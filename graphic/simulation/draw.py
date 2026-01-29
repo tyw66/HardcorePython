@@ -57,3 +57,18 @@ class CanvasDrawing:
         self.__draw_polygon(
             self.transform.apply_to_polygon(polygon)
         )
+
+    def draw_arrow(self, segment:Segment, length:float, height:float):
+        '''绘制箭头'''
+        director = segment.direction_vector
+        v_l = director.opposite().with_length(length)
+        v_h1 = director.perpendicular().with_length(height / 2.0)
+        v_h2 = v_h1.opposite()
+
+        self.draw_segment(segment)
+        self.draw_segment(
+            Segment(segment.end, segment.end.displaced(v_l + v_h1))
+        )
+        self.draw_segment(
+            Segment(segment.end, segment.end.displaced(v_l + v_h2))
+        )
