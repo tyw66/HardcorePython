@@ -40,6 +40,7 @@ class AffineTransform:
         if not isinstance(point, Point):
             raise TypeError("Argument must be a Point")
         
+        #核心变换公式
         return Point(
             self.sx * point.x + self.shx * point.y + self.tx,
             self.shy * point.x + self.sy * point.y + self.ty
