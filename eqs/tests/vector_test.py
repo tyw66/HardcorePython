@@ -97,7 +97,3 @@ class VectorTest(unittest.TestCase):
         v = Vector(3)
         self.assertNotEqual(v, [0.0, 0.0, 0.0])
         self.assertNotEqual(v, dict({1:3.6, 2:2.3}))
-
-
-if __name__ == '__main__':
-    unittest.main()
